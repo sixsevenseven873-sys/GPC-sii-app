@@ -23,12 +23,13 @@ jobs:
         run: npm install
 
       - name: Build executable (EXE)
-        run: npm run dist
+        run: npm run installer
 
       - name: Upload EXE Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-exe
-          path: dist/*.exe
+          path: dist-installer/*.exe
+
 
 
