@@ -1,0 +1,40 @@
+{
+  "name": "gpc-shi",
+  "version": "1.0.0",
+  "description": "GPC SHI - โปรแกรมจับเวลา ตัดต่อ เครื่องคิดเลข และอื่น ๆ",
+  "main": "main.js",
+  "author": "GPC STUDIO",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . \"GPC SHI\" --platform=win32 --arch=x64 --out=dist --overwrite --icon=icon.ico --ignore=^/dist",
+    "installer": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "@electron/packager": "latest",
+    "electron-builder": "latest"
+  },
+  "build": {
+    "appId": "studio.gpc.shi",
+    "productName": "GPC SHI",
+    "directories": {
+      "output": "dist-installer"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "icon.png",
+      "icon.ico",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}
