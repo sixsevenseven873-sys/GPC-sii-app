@@ -1,21 +1,37 @@
-name: Build EXE
+name: Build Windows EXE
 
-on: [push]
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    - name: Install dependencies and build
-      run: |
-        npm install
-        npm run build
+      - name: Show version (ตรวจว่าเป็นไฟล์ใหม่)
+        shell: bash
+        run: node -p "'version=' + require('./package.json').version"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Windows Installer and Portable
+        run: npx electron-builder --win --publish never
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GPC-SHI-2.0-Windows-run${{ github.run_number }}
+          path: dist-installer/*.exe
+          if-no-files-found: error
+
